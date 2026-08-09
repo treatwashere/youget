@@ -12,11 +12,14 @@
                 extend: {
                     colors: {
                         widget: {
-                            bg: '#121212',
-                            lightBg: '#F9F9F9',
+                            bg: '#0f0f0f',
+                            lightBg: '#ffffff',
                             border: '#272727',
-                            lightBorder: '#E5E5E5'
+                            lightBorder: '#e5e5e5'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
                     }
                 }
             }
@@ -73,37 +76,36 @@
         </div>
 
         <!-- Live Preview -->
-        <div class="bg-[#050505] rounded-2xl border border-gray-900 flex flex-col items-center justify-center p-10 min-h-[400px] relative">
+        <div class="bg-[#000000] rounded-2xl border border-gray-900 flex flex-col items-center justify-center p-10 min-h-[400px] relative">
             <span class="absolute top-4 left-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Live Preview</span>
             
-            <!-- The Widget (Matches image.png) -->
-            <div id="preview-widget" class="bg-widget-bg border border-widget-border rounded-xl p-5 w-full max-w-[280px] shadow-2xl transition-colors duration-300">
+            <!-- The Widget (Matched exactly to image.png) -->
+            <div id="preview-widget" class="bg-widget-bg rounded-2xl p-5 w-full max-w-[280px] shadow-2xl transition-colors duration-300">
                 
                 <!-- Header -->
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-red-600 w-8 h-8 rounded-lg flex items-center justify-center shadow-sm">
-                        <!-- YouTube Play Triangle -->
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="bg-[#FF0000] w-8 h-8 rounded-lg flex items-center justify-center">
                         <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
-                    <h3 id="preview-title" class="text-white font-bold text-[17px] tracking-tight">Channel Stats</h3>
+                    <h3 id="preview-title" class="text-white font-bold text-[17px]">Channel Stats</h3>
                 </div>
 
                 <!-- Live Subs -->
                 <div class="mb-5">
-                    <span id="label-subs" class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">Live Subscribers</span>
-                    <p id="preview-count" class="text-white text-4xl font-bold tracking-tight">14,204</p>
+                    <span id="label-subs" class="text-[10px] text-gray-400 uppercase block mb-1">LIVE SUBSCRIBERS</span>
+                    <p id="preview-count" class="text-white text-[32px] font-bold leading-tight">14,204</p>
                 </div>
 
                 <!-- Recent Subs -->
                 <div>
-                    <span id="label-recent" class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block mb-2">Recent Public Subs</span>
-                    <div class="flex gap-2">
-                        <!-- Dummy Avatars -->
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=ffdfbf" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&backgroundColor=c0aede" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara&backgroundColor=ffdfbf" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack&backgroundColor=b6e3f4" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John&backgroundColor=c0aede" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                    <span id="label-recent" class="text-[10px] text-gray-400 uppercase block mb-2">RECENT PUBLIC SUBS</span>
+                    <!-- Overlapping Avatars -->
+                    <div class="flex -space-x-1.5 overflow-hidden">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=ffdfbf" class="inline-block h-8 w-8 rounded-full ring-2 ring-widget-bg bg-gray-800 transition-colors duration-300 avatar-ring">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&backgroundColor=c0aede" class="inline-block h-8 w-8 rounded-full ring-2 ring-widget-bg bg-gray-800 transition-colors duration-300 avatar-ring">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara&backgroundColor=ffdfbf" class="inline-block h-8 w-8 rounded-full ring-2 ring-widget-bg bg-gray-800 transition-colors duration-300 avatar-ring">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack&backgroundColor=b6e3f4" class="inline-block h-8 w-8 rounded-full ring-2 ring-widget-bg bg-gray-800 transition-colors duration-300 avatar-ring">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John&backgroundColor=c0aede" class="inline-block h-8 w-8 rounded-full ring-2 ring-widget-bg bg-gray-800 transition-colors duration-300 avatar-ring">
                     </div>
                 </div>
 
@@ -113,29 +115,26 @@
     </div>
 
     <script>
-        // DOM Elements
         const handleInput = document.getElementById('yt-handle');
         const themeSelect = document.getElementById('theme-select');
         const langSelect = document.getElementById('lang-select');
         const codeSnippet = document.getElementById('code-snippet');
         const copyBtn = document.getElementById('copy-btn');
         
-        // Preview Elements
         const previewWidget = document.getElementById('preview-widget');
         const previewTitle = document.getElementById('preview-title');
         const previewCount = document.getElementById('preview-count');
         const labelSubs = document.getElementById('label-subs');
         const labelRecent = document.getElementById('label-recent');
+        const avatarRings = document.querySelectorAll('.avatar-ring');
 
-        // Translations Dictionary
         const translations = {
-            en: { title: "Channel Stats", subs: "Live Subscribers", recent: "Recent Public Subs" },
-            es: { title: "Estadísticas", subs: "Suscriptores en vivo", recent: "Suscriptores recientes" },
-            fr: { title: "Statistiques", subs: "Abonnés en direct", recent: "Abonnés récents" },
-            de: { title: "Kanalstatistiken", subs: "Live-Abonnenten", recent: "Letzte Abonnenten" }
+            en: { title: "Channel Stats", subs: "LIVE SUBSCRIBERS", recent: "RECENT PUBLIC SUBS" },
+            es: { title: "Estadísticas", subs: "SUSCRIPTORES EN VIVO", recent: "SUSCRIPTORES RECIENTES" },
+            fr: { title: "Statistiques", subs: "ABONNÉS EN DIRECT", recent: "ABONNÉS RÉCENTS" },
+            de: { title: "Kanalstatistiken", subs: "LIVE-ABONNENTEN", recent: "LETZTE ABONNENTEN" }
         };
 
-        // Update the embed code snippet
         function updateSnippet() {
             const handle = handleInput.value || 'YOUR_HANDLE';
             const theme = themeSelect.value;
@@ -145,36 +144,39 @@
             codeSnippet.value = snippet;
         }
 
-        // Update the live preview visuals
         function updatePreview() {
             const theme = themeSelect.value;
             const lang = langSelect.value;
 
-            // Update Theme (Toggling Tailwind classes to simulate the real widget)
             if (theme === 'light') {
-                previewWidget.classList.remove('bg-widget-bg', 'border-widget-border');
-                previewWidget.classList.add('bg-widget-lightBg', 'border-widget-lightBorder');
+                previewWidget.classList.remove('bg-widget-bg');
+                previewWidget.classList.add('bg-widget-lightBg', 'border', 'border-widget-lightBorder');
                 previewTitle.classList.replace('text-white', 'text-black');
                 previewCount.classList.replace('text-white', 'text-black');
+                avatarRings.forEach(ring => {
+                    ring.classList.remove('ring-widget-bg');
+                    ring.classList.add('ring-widget-lightBg');
+                });
             } else {
-                previewWidget.classList.remove('bg-widget-lightBg', 'border-widget-lightBorder');
-                previewWidget.classList.add('bg-widget-bg', 'border-widget-border');
+                previewWidget.classList.remove('bg-widget-lightBg', 'border', 'border-widget-lightBorder');
+                previewWidget.classList.add('bg-widget-bg');
                 previewTitle.classList.replace('text-black', 'text-white');
                 previewCount.classList.replace('text-black', 'text-white');
+                avatarRings.forEach(ring => {
+                    ring.classList.remove('ring-widget-lightBg');
+                    ring.classList.add('ring-widget-bg');
+                });
             }
 
-            // Update Language
             previewTitle.innerText = translations[lang].title;
             labelSubs.innerText = translations[lang].subs;
             labelRecent.innerText = translations[lang].recent;
         }
 
-        // Event Listeners
         handleInput.addEventListener('input', updateSnippet);
         themeSelect.addEventListener('change', () => { updateSnippet(); updatePreview(); });
         langSelect.addEventListener('change', () => { updateSnippet(); updatePreview(); });
 
-        // Copy Button Logic
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(codeSnippet.value);
             const originalText = copyBtn.innerText;
@@ -186,7 +188,6 @@
             }, 2000);
         });
 
-        // Initial render
         updateSnippet();
         updatePreview();
     </script>
