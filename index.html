@@ -3,25 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youjet Widget Testing</title>
-    <style>
-        /* Basic styling just for the test page, simulating a dark website background */
-        body {
-            background-color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
+    <title>Youjet Setup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        widget: {
+                            bg: '#121212',
+                            lightBg: '#F9F9F9',
+                            border: '#272727',
+                            lightBorder: '#E5E5E5'
+                        }
+                    }
+                }
+            }
         }
-    </style>
+    </script>
 </head>
-<body>
+<body class="bg-black text-white min-h-screen font-sans flex items-center justify-center p-6">
 
-    <!-- This is all a user needs to embed Youjet on their site -->
-    <div id="youjet-widget" data-channel="UC_x5XG1OV2P6uZZ5FSM9Ttw"></div>
-    <script src="./youjet.js"></script>
+    <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-10">
+        
+        <!-- Setup Controls -->
+        <div class="flex flex-col justify-center space-y-6">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Youjet Setup</h1>
+                <p class="text-gray-400 text-sm">Configure your YouTube widget and grab the embed code.</p>
+            </div>
 
+            <div class="space-y-4">
+                <!-- Handle Input -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">YouTube Handle / ID</label>
+                    <input type="text" id="yt-handle" placeholder="@MrBeast" class="w-full bg-[#1A1A1A] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition-colors">
+                </div>
+
+                <!-- Theme Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Theme</label>
+                    <select id="theme-select" class="w-full bg-[#1A1A1A] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition-colors appearance-none">
+                        <option value="dark">Dark Mode</option>
+                        <option value="light">Light Mode</option>
+                    </select>
+                </div>
+
+                <!-- Language Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Language</label>
+                    <select id="lang-select" class="w-full bg-[#1A1A1A] border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition-colors appearance-none">
+                        <option value="en">English (EN)</option>
+                        <option value="es">Spanish (ES)</option>
+                        <option value="fr">French (FR)</option>
+                        <option value="de">German (DE)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Code Snippet Output -->
+            <div class="pt-4">
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Embed Code</label>
+                <div class="relative">
+                    <textarea id="code-snippet" readonly class="w-full bg-[#1A1A1A] border border-gray-800 rounded-lg px-4 py-3 text-gray-300 font-mono text-sm resize-none h-24 focus:outline-none"></textarea>
+                    <button id="copy-btn" class="absolute top-2 right-2 bg-[#2A2A2A] hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-md transition-colors">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="bg-[#050505] rounded-2xl border border-gray-900 flex flex-col items-center justify-center p-10 min-h-[400px] relative">
+            <span class="absolute top-4 left-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Live Preview</span>
+            
+            <!-- The Widget (Matches image.png) -->
+            <div id="preview-widget" class="bg-widget-bg border border-widget-border rounded-xl p-5 w-full max-w-[280px] shadow-2xl transition-colors duration-300">
+                
+                <!-- Header -->
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-red-600 w-8 h-8 rounded-lg flex items-center justify-center shadow-sm">
+                        <!-- YouTube Play Triangle -->
+                        <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <h3 id="preview-title" class="text-white font-bold text-[17px] tracking-tight">Channel Stats</h3>
+                </div>
+
+                <!-- Live Subs -->
+                <div class="mb-5">
+                    <span id="label-subs" class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">Live Subscribers</span>
+                    <p id="preview-count" class="text-white text-4xl font-bold tracking-tight">14,204</p>
+                </div>
+
+                <!-- Recent Subs -->
+                <div>
+                    <span id="label-recent" class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block mb-2">Recent Public Subs</span>
+                    <div class="flex gap-2">
+                        <!-- Dummy Avatars -->
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=ffdfbf" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&backgroundColor=c0aede" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara&backgroundColor=ffdfbf" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack&backgroundColor=b6e3f4" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John&backgroundColor=c0aede" class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // DOM Elements
+        const handleInput = document.getElementById('yt-handle');
+        const themeSelect = document.getElementById('theme-select');
+        const langSelect = document.getElementById('lang-select');
+        const codeSnippet = document.getElementById('code-snippet');
+        const copyBtn = document.getElementById('copy-btn');
+        
+        // Preview Elements
+        const previewWidget = document.getElementById('preview-widget');
+        const previewTitle = document.getElementById('preview-title');
+        const previewCount = document.getElementById('preview-count');
+        const labelSubs = document.getElementById('label-subs');
+        const labelRecent = document.getElementById('label-recent');
+
+        // Translations Dictionary
+        const translations = {
+            en: { title: "Channel Stats", subs: "Live Subscribers", recent: "Recent Public Subs" },
+            es: { title: "Estadísticas", subs: "Suscriptores en vivo", recent: "Suscriptores recientes" },
+            fr: { title: "Statistiques", subs: "Abonnés en direct", recent: "Abonnés récents" },
+            de: { title: "Kanalstatistiken", subs: "Live-Abonnenten", recent: "Letzte Abonnenten" }
+        };
+
+        // Update the embed code snippet
+        function updateSnippet() {
+            const handle = handleInput.value || 'YOUR_HANDLE';
+            const theme = themeSelect.value;
+            const lang = langSelect.value;
+            
+            const snippet = \`<script src="https://cdn.jsdelivr.net/gh/treatwashere/Youjet@main/youjet.min.js" data-handle="\${handle}" data-theme="\${theme}" data-lang="\${lang}"><\\/script>\`;
+            codeSnippet.value = snippet;
+        }
+
+        // Update the live preview visuals
+        function updatePreview() {
+            const theme = themeSelect.value;
+            const lang = langSelect.value;
+
+            // Update Theme (Toggling Tailwind classes to simulate the real widget)
+            if (theme === 'light') {
+                previewWidget.classList.remove('bg-widget-bg', 'border-widget-border');
+                previewWidget.classList.add('bg-widget-lightBg', 'border-widget-lightBorder');
+                previewTitle.classList.replace('text-white', 'text-black');
+                previewCount.classList.replace('text-white', 'text-black');
+            } else {
+                previewWidget.classList.remove('bg-widget-lightBg', 'border-widget-lightBorder');
+                previewWidget.classList.add('bg-widget-bg', 'border-widget-border');
+                previewTitle.classList.replace('text-black', 'text-white');
+                previewCount.classList.replace('text-black', 'text-white');
+            }
+
+            // Update Language
+            previewTitle.innerText = translations[lang].title;
+            labelSubs.innerText = translations[lang].subs;
+            labelRecent.innerText = translations[lang].recent;
+        }
+
+        // Event Listeners
+        handleInput.addEventListener('input', updateSnippet);
+        themeSelect.addEventListener('change', () => { updateSnippet(); updatePreview(); });
+        langSelect.addEventListener('change', () => { updateSnippet(); updatePreview(); });
+
+        // Copy Button Logic
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(codeSnippet.value);
+            const originalText = copyBtn.innerText;
+            copyBtn.innerText = 'Copied!';
+            copyBtn.classList.replace('bg-[#2A2A2A]', 'bg-green-600');
+            setTimeout(() => {
+                copyBtn.innerText = originalText;
+                copyBtn.classList.replace('bg-green-600', 'bg-[#2A2A2A]');
+            }, 2000);
+        });
+
+        // Initial render
+        updateSnippet();
+        updatePreview();
+    </script>
 </body>
 </html>
